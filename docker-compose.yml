@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  fhem:
+    image: stelzer77/fhem-armhf-alpine
+    ports:
+     - "8083:8083"
+    volumes:
+     - persist:/opt/fhem
+    depends_on:
+     - knxd
+#    links:
+#     - knxd
+  knxd:
+    image: stelzer77/knxd-armhf-alpine
+    command: ["-e 15.15.0", "-E 15.15.1:8", "-i", "-DTS", "-c", "-b", "ipt:192.168.178.230"]
+    expose:
+     - "4720"
+     - "6720"
+     - "3671/udp"
+    volumes:
+     - persist:/opt/knxd
+
+volumes:
+  persist: {}
