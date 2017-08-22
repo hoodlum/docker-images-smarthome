@@ -6,16 +6,15 @@ script:
 # prepare qemu
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
-- docker build -t stelzer77/telegraf-armhf:build telegraf-armhf/
+- docker build -t stelzer77/telegraf-armhf telegraf-armhf/
 # test image
 - docker run stelzer77/telegraf-armhf config
 # push image
 - >
   if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-    TAG=$(grep download Dockerfile | sed 's,.*/download/,,' | sed 's,/.*$,,')
-    docker tag stelzer77//telegraf-armhf:build stelzer77/rpi-traefik:$TAG
-    docker push stelzer77//telegraf-armhf:$TAG
-    docker tag stelzer77//telegraf-armhf:build stelzer77//telegraf-armhf:latest
-    docker push stelzer77//telegraf-armhf:latest
+    TAG=$(grep "ENV MYSQL_VERSION" telegraf-armhf/Dockerfile | awk 'NF>1{print $NF}')
+    docker tag stelzer77/telegraf-armhf stelzer77/telegraf-armhf:$TAG
+    docker push stelzer77/telegraf-armhf:$TAG
+    docker push stelzer77/telegraf-armhf
   fi
