@@ -1,5 +1,7 @@
 #FROM hypriot/rpi-alpine-scratch
-FROM armhf/alpine
+#FROM armhf/alpine
+#Image with Qemu enabled
+FROM hypriot/rpi-alpine
 
 RUN 	apk update && \
 	apk upgrade && \
