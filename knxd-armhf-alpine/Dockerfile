@@ -1,5 +1,3 @@
-#FROM hypriot/rpi-alpine-scratch
-#FROM armhf/alpine
 #Image with Qemu enabled
 FROM hypriot/rpi-alpine
 
